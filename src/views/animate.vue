@@ -28,6 +28,7 @@ export default {
         {id: 8},
         {id: 9},
         {id: 10},
+        {id: 11},
       ]
     }
   },
@@ -54,13 +55,19 @@ export default {
       const list = []
       const oldH = cont.offsetHeight
       let newH = 0
+      let colorIndex = 3
+      let index = 1 +  this.list.length % colorIndex// 此处为循环几倍，如果有几个颜色的模就需要几次
       if (cont.offsetHeight + cont.offsetTop  >= wrap.offsetHeight) {
         this.list.map((e) => {
           list.push(e)
         })
-        list.map((e, i) => {
-          list.push(e)
-        })
+
+        for (let i = 0; i < index; i++) { //复制倍数
+          list.map((e, i) => {
+            list.push(e)
+          })
+        }
+
       }
       list.map((e, i) => {
         if (i > this.list.length - 1) {
@@ -81,14 +88,13 @@ export default {
       const ss = setInterval(() => {
         console.log(cont.offsetHeight + cont.offsetTop, wrap.offsetHeight);
         // + wrap.offsetHeight
-        if (newcont.offsetHeight   > wrap.offsetHeight) {
+        if (newcont.offsetHeight > wrap.offsetHeight * index) {
           cont.style.top = (cont.offsetTop - 1) + 'px'
-          if (oldH + cont.offsetTop === 0 ) {
+          if (oldH * index + cont.offsetTop === 0 ) {
             cont.style.top = '0px'
             // clearInterval(ss)
             // console.log(cont.offsetTop, cont.offsetHeight, newcont.offsetHeight);
             console.log(oldH, newH, newcont.offsetHeight, cont.offsetTop);
-            
           }
         } else {
           
@@ -121,8 +127,14 @@ a {
   width: 100%;
   padding: 10px 0;
   background: #42b983;
-  &:nth-child(2n){
+  // &:nth-child(2n){
+  //   background: #ba723b;
+  // }
+  &:nth-child(3n + 1){
     background: #ba723b;
+  }
+  &:nth-child(3n + 2){
+    background: #6539df;
   }
 }
 .animate-wrap{
